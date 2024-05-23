@@ -36,7 +36,8 @@ namespace DAL
 
         public void DeleteRole(RoleDTO Role)
         {
-            context.Roles.Remove(Role);
+            RoleDTO toDelete = GetRole(Role.Id);
+            context.Roles.Remove(toDelete);
             context.SaveChanges();
         }
 
