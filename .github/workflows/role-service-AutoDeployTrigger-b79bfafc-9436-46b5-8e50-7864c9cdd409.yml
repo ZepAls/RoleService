@@ -1,0 +1,47 @@
+name: Trigger auto deployment for role-service
+
+# When this action will be executed
+on:
+  # Automatically trigger it when detected changes in repo
+  push:
+    branches: 
+      [ master ]
+    paths:
+    - '**'
+    - '.github/workflows/role-service-AutoDeployTrigger-b79bfafc-9436-46b5-8e50-7864c9cdd409.yml'
+
+  # Allow manual trigger 
+  workflow_dispatch:      
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    permissions: 
+      id-token: write #This is required for requesting the OIDC JWT Token
+      contents: read #Required when GH token is used to authenticate with private repo
+
+    steps:
+      - name: Checkout to the branch
+        uses: actions/checkout@v2
+
+      - name: Azure Login
+        uses: azure/login@v1
+        with:
+          client-id: ${{ secrets.ROLESERVICE_AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.ROLESERVICE_AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.ROLESERVICE_AZURE_SUBSCRIPTION_ID }}
+
+      - name: Build and push container image to registry
+        uses: azure/container-apps-deploy-action@v2
+        with:
+          appSourcePath: ${{ github.workspace }} 
+          registryUrl: ggstinfohub.azurecr.io
+          registryUsername: ${{ secrets.ROLESERVICE_REGISTRY_USERNAME }}
+          registryPassword: ${{ secrets.ROLESERVICE_REGISTRY_PASSWORD }}
+          containerAppName: role-service
+          resourceGroup: GGST_InfoHub
+          imageToBuild: ggstinfohub.azurecr.io/role-service:${{ github.sha }}
+          _buildArgumentsKey_: |
+            _buildArgumentsValues_
+
+
