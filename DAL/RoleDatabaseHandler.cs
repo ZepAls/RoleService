@@ -29,6 +29,7 @@ namespace DAL
                 DbProposal.Id = Role.Id;
                 DbProposal.CharacterPageName = Role.CharacterPageName;
                 DbProposal.RoleName = Role.RoleName;
+                DbProposal.UserId = Role.UserId;
                 DbProposal.UserName = Role.UserName;
                 context.SaveChanges();
             }
