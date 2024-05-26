@@ -1,4 +1,5 @@
 using System.Text;
+using BGW.controllers;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 namespace BGW;
@@ -14,6 +15,8 @@ public class Worker : BackgroundService
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
+        MessageHandler handleMessage = new MessageHandler();
+
         var factory = new ConnectionFactory { HostName = "localhost" };
         using var connection = factory.CreateConnection();
         using var channel = connection.CreateModel();
@@ -29,18 +32,16 @@ public class Worker : BackgroundService
         {
             var body = ea.Body.ToArray();
             var message = Encoding.UTF8.GetString(body);
-            Console.WriteLine($" [x] Received {message}");
+            _logger.LogInformation($" [x] Received {message}");
+            handleMessage.IdentifyMessage(message);
         };
-
-        Console.WriteLine(" [*] Waiting for messages.");
 
         while (!stoppingToken.IsCancellationRequested)
         {
             channel.BasicConsume(queue: "RoleQueue",
                                  autoAck: true,
                                  consumer: consumer);
-
-            _logger.LogInformation("Worker running at: {time}", DateTimeOffset.Now);
+            _logger.LogInformation(" [*] Waiting for messages.");
             await Task.Delay(1000, stoppingToken);
         }
     }

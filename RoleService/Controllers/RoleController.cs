@@ -17,7 +17,8 @@ namespace RoleService.Controllers
         {
             RoleHandler handler = new RoleHandler();
             IEnumerable<RoleDTO> Rolelist = handler.GetAllRoles();
-            if (Rolelist.Count() != 0)
+            int amount = Rolelist.Count();
+            if (amount != 0)
             {
                 return Ok(Rolelist);
             }

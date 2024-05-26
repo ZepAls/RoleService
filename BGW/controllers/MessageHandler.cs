@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DAL;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -26,6 +27,8 @@ namespace BGW.controllers
         {
             //remove all roles with that user ID
             Console.WriteLine("removing role with user ID: " + UserId);
+            RoleDatabaseHandler handler = new RoleDatabaseHandler();
+            handler.RemoveRoleWithUserId(UserId);
         }
     }
 }

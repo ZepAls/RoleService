@@ -4,11 +4,11 @@
       "type": "secrets.user"
     },
     "mssql1": {
-      "serviceConnectorResourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroupName')]/providers/Microsoft.ServiceLinker/locations/uksouth/connectors/ConnectionStringsRoleDBConnString_D47FD49DA6",
+      "serviceConnectorResourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroupName')]/providers/Microsoft.ServiceLinker/locations/uksouth/connectors/ConnectionStringsRoleDatabaseConnString_6950DC8457",
       "secretStore": "LocalSecretsFile",
       "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroupName')]/providers/Microsoft.Sql/servers/ggst-infohub/databases/Roles",
       "type": "mssql.azure",
-      "connectionId": "ConnectionStrings:RoleDBConnString"
+      "connectionId": "ConnectionStrings:RoleDatabaseConnString"
     }
   }
 }

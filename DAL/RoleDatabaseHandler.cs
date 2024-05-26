@@ -30,6 +30,7 @@ namespace DAL
                 DbProposal.CharacterPageName = Role.CharacterPageName;
                 DbProposal.RoleName = Role.RoleName;
                 DbProposal.UserName = Role.UserName;
+                DbProposal.UserId = Role.UserId;
                 context.SaveChanges();
             }
         }
@@ -44,6 +45,12 @@ namespace DAL
         public IEnumerable<RoleDTO> GetAllRoles()
         {
             return context.Roles;
+        }
+
+        public void RemoveRoleWithUserId(int userId)
+        {
+            context.Roles.RemoveRange(context.Roles.Where(t => t.UserId == userId));
+            context.SaveChanges();
         }
 
         public RoleDTO GetRole(int RoleId)
